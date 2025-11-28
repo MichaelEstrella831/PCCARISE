@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>PCC ARISE - First Page</title>
+    <style> 
+        body {
+            margin: 0; 
+            height: 100vh;
+            background: linear-gradient(135deg, #f88a8a, #e05252);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+            color: black;
+        }
+        #logo {
+            width: 120px;
+            height: 120px;
+            background: white;
+            border-radius: 50%;
+            border: 6px solid #b71c1c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+        #logo img {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 80px;
+        }
+        button {
+            padding: 12px 30px;
+            font-weight: bold;
+            font-size: 1rem;
+            border-radius: 25px;
+            border: 1.5px solid white;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            width: 200px;
+            text-align: center;
+        }
+        #clickBtn {
+            background-color: #b71c1c;
+            color: white;
+        }
+        #clickBtn:hover {
+            background-color: #f0f0f0;
+            color: #b71c1c;
+        }
+        #adminBtn {
+            background-color: #b71c1c;
+            color: white;
+        }
+        #adminBtn:hover {
+            background-color: #f0f0f0;
+            color: #b71c1c;
+        }
+        #logo-text {
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 8px;
+            color: white;
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="logo">
+        <img src="https://i.postimg.cc/jj0Vypft/arise-logo.png" alt="Logo">
+    </div>
+
+    
+
+    <div class="buttons">
+        <button id="clickBtn" onclick="window.open('complaintSubmission.html', '_blank')">Complaints/Issue?</button>
+        <button id="adminBtn" onclick="location.href='PCCAD.html'">ADMIN</button>
+    </div>
+    
+
+</body>
+</html>

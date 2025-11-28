@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Complaint and Issue Tracking Management</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: linear-gradient(to right, #d82c2c, #f27575);
+    display: flex;
+    color: #fff;
+  }
+  /* Sidebar */
+  .sidebar {
+    background: #bb1e1e;
+    width: 220px;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .logo {
+    margin-bottom: 25px;
+    text-align: center;
+  }
+  .logo img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+  }
+  .logo span {
+    font-weight: bold;
+    font-size: 24px;
+    margin-left: 10px;
+    vertical-align: middle;
+  }
+  .nav-btn {
+    background: #fff;
+    color: #000;
+    border-radius: 30px;
+    width: 180px;
+    padding: 10px 15px;
+    margin: 8px 0;
+    cursor: pointer;
+    text-align: left;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    transition: background 0.3s, color 0.3s;
+    border: none;
+  }
+  .nav-btn.active {
+    background: #00142c;
+    color: #fff;
+  }
+  .nav-btn i {
+    margin-right: 10px;
+  }
+  /* Main content */
+  .main-content {
+    flex: 1;
+    padding: 30px;
+    background: #f27575;
+    color: #000;
+    font-weight: bold;
+  }
+  .search-box {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .search-box input {
+    width: 350px;
+    padding: 12px 15px;
+    border-radius: 40px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+  }
+  .search-box button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    left: -40px;
+  }
+  .search-box button i {
+    font-size: 18px;
+    color: #555;
+  }
+  /* Submit button */
+  #openFormBtn {
+    background: #990000;
+    color: #fff;
+    border-radius: 30px;
+    border: none;
+    padding: 12px 25px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: background 0.3s ease;
+  }
+  #openFormBtn:hover {
+    background: #cc0000;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #f8c9c9;
+    border-radius: 15px;
+    overflow: hidden;
+  }
+  thead tr {
+    background: #223147;
+    color: #fff;
+    text-align: left;
+  }
+  thead th, tbody td {
+    padding: 12px 15px;
+  }
+  tbody tr:nth-child(odd) {
+    background: #f5b1b1;
+  }
+  tbody tr:nth-child(even) {
+    background: #f8c9c9;
+  }
+  .view-btn {
+    background: #990000;
+    color: #fff;
+    border-radius: 20px;
+    border: none;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-weight: normal;
+    transition: background 0.3s;
+  }
+  .view-btn:hover {
+    background: #cc0000;
+  }
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="logo">
+    <img src="https://via.placeholder.com/60" alt="PCC ARISE Logo" />
+    <span>ARISE</span>
+  </div>
+  <button class="nav-btn" onclick="location.href='management2.html'">💬 Complaint and Issue Management</button>
+  <button class="nav-btn active">🗨 Report Tracking</button>
+  
+  
+</div>
+
+<div class="main-content">
+
+
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="Search Here" oninput="searchTable()" />
+    <button onclick="searchTable()"><i>🔍</i></button>
+  </div>
+
+  <h2>Recent Reports</h2>
+  <table id="complaintTable" aria-label="Recent Reports Table">
+    <thead>
+      <tr>
+        <th>Student ID</th>
+        <th>Type of Complaint</th>
+        <th>Program</th>
+        <th>Time</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody">
+      <!-- Rows generated via JS -->
+    </tbody>
+  </table>
+</div>
+
+<script>
+  let complaints = [];
+
+  const tableBody = document.getElementById('tableBody');
+
+  function formatTime(date) {
+    let hours = date.getHours();
+    let minutes = date.getMinutes();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12 || 12;
+    return `${hours.toString().padStart(2,'0')}:${minutes.toString().padStart(2,'0')} ${ampm}`;
+  }
+
+  function renderTable(data) {
+    tableBody.innerHTML = '';
+    data.forEach((complaint, index) => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${complaint.id}</td>
+        <td>${complaint.type}</td>
+        <td>${complaint.program}</td>
+        <td>${complaint.time}</td>
+        <td>${complaint.status}</td>
+        <td><button class="view-btn" onclick="viewComplaint(${index})">View</button></td>
+      `;
+      tableBody.appendChild(row);
+    });
+  }
+
+  function viewComplaint(index) {
+    const complaint = complaints[index];
+    alert(`Student ID: ${complaint.id}
+Type: ${complaint.type}
+Program: ${complaint.program}
+Time: ${complaint.time}
+Status: ${complaint.status}
+
+Description:
+${complaint.description || 'No description provided.'}`);
+  }
+
+  function searchTable() {
+    const filter = document.getElementById('searchInput').value.toLowerCase();
+    const filtered = complaints.filter(c =>
+      c.id.toLowerCase().includes(filter) ||
+      c.type.toLowerCase().includes(filter) ||
+      c.program.toLowerCase().includes(filter) ||
+      c.status.toLowerCase().includes(filter) ||
+      c.time.toLowerCase().includes(filter)
+    );
+    renderTable(filtered);
+  }
+
+  // Receive data from submission popup
+  window.addEventListener('message', (event) => {
+    const newComplaint = event.data;
+    if (newComplaint && newComplaint.id) {
+      newComplaint.status = "Ongoing";
+      complaints.unshift(newComplaint);
+      localStorage.setItem('complaints', JSON.stringify(complaints));
+      searchTable();
+    }
+  });
+
+  // Load from localStorage on page load
+  window.onload = () => {
+    complaints = JSON.parse(localStorage.getItem('complaints')) || [];
+    renderTable(complaints);
+  };
+</script>
+
+
+
+</body>
+</html>
